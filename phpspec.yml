@@ -17,3 +17,4 @@ suites:
     TaxationBundle        : { namespace: Sylius, spec_path: src/Sylius/Bundle/TaxationBundle }
     TaxonomiesBundle      : { namespace: Sylius, spec_path: src/Sylius/Bundle/TaxonomiesBundle }
     VariableProductBundle : { namespace: Sylius, spec_path: src/Sylius/Bundle/VariableProductBundle }
+    PricingBundle         : { namespace: Sylius, spec_path: src/Sylius/Bundle/PricingBundle }

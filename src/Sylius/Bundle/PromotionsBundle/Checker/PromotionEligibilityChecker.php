@@ -64,7 +64,7 @@ class PromotionEligibilityChecker implements PromotionEligibilityCheckerInterfac
             return false;
         }
 
-        foreach ($promotion->all() as $rule) {
+        foreach ($promotion->getRules() as $rule) {
             if (false === $this->isEligibleToRule($subject, $promotion, $rule)) {
                 return false;
             }
@@ -88,7 +88,7 @@ class PromotionEligibilityChecker implements PromotionEligibilityCheckerInterfac
      */
     private function isEligibleToRule(PromotionSubjectInterface $subject, PromotionInterface $promotion, RuleInterface $rule)
     {
-        $checker = $this->registry->getChecker($rule->getType());
+        $checker = $this->registry->get($rule->getType());
 
         if (false === $checker->isEligible($subject, $rule->getConfiguration())) {
             if ($promotion->isCouponBased() && $promotion === $subject->getPromotionCoupon()->getPromotion()) {

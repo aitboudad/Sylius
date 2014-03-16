@@ -27,9 +27,11 @@ use Sylius\Bundle\CoreBundle\Model\OrderItem;
 use Sylius\Bundle\CoreBundle\Model\ShipmentInterface;
 use Sylius\Bundle\CoreBundle\Model\ShippingMethodInterface;
 use Sylius\Bundle\CoreBundle\Model\UserInterface;
+use Sylius\Bundle\CoreBundle\Pricing\Calculators;
 use Sylius\Bundle\MoneyBundle\Model\ExchangeRateInterface;
 use Sylius\Bundle\OrderBundle\Model\OrderInterface;
 use Sylius\Bundle\PaymentsBundle\Model\PaymentMethodInterface;
+use Sylius\Bundle\PricingBundle\Calculator\DefaultCalculators as DefaultPriceCalculators;
 use Sylius\Bundle\ShippingBundle\Calculator\DefaultCalculators;
 use Sylius\Bundle\ShippingBundle\Model\RuleInterface;
 use Sylius\Bundle\ShippingBundle\Model\ShippingCategoryInterface;
@@ -496,6 +498,62 @@ class DataContext extends BehatContext implements KernelAwareInterface
         foreach ($product->getVariants() as $variant) {
             $variant->setPrice($product->getMasterVariant()->getPrice());
         }
+
+        $manager = $this->getEntityManager();
+        $manager->persist($product);
+        $manager->flush();
+    }
+
+    /**
+     * @Given /^product "([^""]*)" has the following group based pricing:$/
+     */
+    public function productHasTheFollowingGroupBasedPricing($productName, TableNode $table)
+    {
+        $product = $this->findOneByName('product', $productName);
+        $masterVariant = $product->getMasterVariant();
+
+        $masterVariant->setPricingCalculator(Calculators::GROUP_BASED);
+        $configuration = array();
+
+        foreach ($table->getHash() as $data) {
+            $group = $this->findOneByName('group', trim($data['group']));
+            $configuration[$group->getId()] = (int) $data['price'] * 100;
+        }
+
+        $masterVariant->setPricingConfiguration($configuration);
+
+        $manager = $this->getEntityManager();
+        $manager->persist($product);
+        $manager->flush();
+    }
+
+    /**
+     * @Given /^product "([^""]*)" has the following volume based pricing:$/
+     */
+    public function productHasTheFollowingVolumeBasedPricing($productName, TableNode $table)
+    {
+        $product = $this->findOneByName('product', $productName);
+        $masterVariant = $product->getMasterVariant();
+
+        $masterVariant->setPricingCalculator(DefaultPriceCalculators::VOLUME_BASED);
+        $configuration = array();
+
+        foreach ($table->getHash() as $data) {
+          if (false !== strpos($data['range'], '+')) {
+                $min = null;
+                $max = (int) trim(str_replace('+', '', $data['range']));
+            } else {
+                list($min, $max) = array_map(function ($value) { return (int) trim($value); }, explode('-', $data['range']));
+            }
+
+            $configuration[] = array(
+                'min'   => $min,
+                'max'   => $max,
+                'price' => (int) $data['price'] * 100
+            );
+        }
+
+        $masterVariant->setPricingConfiguration($configuration);
 
         $manager = $this->getEntityManager();
         $manager->persist($product);

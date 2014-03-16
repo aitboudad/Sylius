@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Sylius\Bundle\CoreBundle\Checker\RestrictedZoneCheckerInterface;
 use Sylius\Bundle\CartBundle\Provider\CartProviderInterface;
-use Sylius\Bundle\CoreBundle\Calculator\PriceCalculatorInterface;
+use Sylius\Bundle\PricingBundle\Calculator\DelegatingCalculatorInterface;
 
 /**
  * Item resolver for cart bundle.
@@ -43,7 +43,7 @@ class ItemResolver implements ItemResolverInterface
     /**
      * Prica calculator.
      *
-     * @var PriceCalculatorInterface
+     * @var DelegatingCalculatorInterface
      */
     protected $priceCalculator;
 
@@ -78,27 +78,28 @@ class ItemResolver implements ItemResolverInterface
     /**
      * Constructor.
      *
-     * @param CartProviderInterface          $cartProvider
-     * @param RepositoryInterface            $productRepository
-     * @param FormFactory                    $formFactory
-     * @param AvailabilityCheckerInterface   $availabilityChecker
-     * @param RestrictedZoneCheckerInterface $restrictedZoneChecker
+     * @param CartProviderInterface              $cartProvider
+     * @param RepositoryInterface                $productRepository
+     * @param FormFactory                        $formFactory
+     * @param AvailabilityCheckerInterface       $availabilityChecker
+     * @param RestrictedZoneCheckerInterface     $restrictedZoneChecker
+     * @param DelegatingCalculatorInterface $priceCalculator
      */
     public function __construct(
-        CartProviderInterface          $cartProvider,
-        PriceCalculatorInterface       $priceCalculator,
-        RepositoryInterface            $productRepository,
-        FormFactory                    $formFactory,
-        AvailabilityCheckerInterface   $availabilityChecker,
-        RestrictedZoneCheckerInterface $restrictedZoneChecker
+        CartProviderInterface              $cartProvider,
+        RepositoryInterface                $productRepository,
+        FormFactory                        $formFactory,
+        AvailabilityCheckerInterface       $availabilityChecker,
+        RestrictedZoneCheckerInterface     $restrictedZoneChecker,
+        DelegatingCalculatorInterface $priceCalculator
     )
     {
         $this->cartProvider = $cartProvider;
-        $this->priceCalculator = $priceCalculator;
         $this->productRepository = $productRepository;
         $this->formFactory = $formFactory;
         $this->availabilityChecker = $availabilityChecker;
         $this->restrictedZoneChecker = $restrictedZoneChecker;
+        $this->priceCalculator = $priceCalculator;
     }
 
     /**
@@ -117,19 +118,17 @@ class ItemResolver implements ItemResolverInterface
          * pattern and use attributes, which are available through request object.
          */
         if (!$id = $request->get('id')) {
-            throw new ItemResolvingException('Error while trying to add item to cart');
+            throw new ItemResolvingException('Error while trying to add item to cart.');
         }
 
-        /* @var $product Product */
         if (!$product = $this->productRepository->find($id)) {
-            throw new ItemResolvingException('Requested product was not found');
+            throw new ItemResolvingException('Requested product was not found.');
         }
 
         // We use forms to easily set the quantity and pick variant but you can do here whatever is required to create the item.
         $form = $this->formFactory->create('sylius_cart_item', null, array('product' => $product));
 
         $form->submit($request);
-        /* @var $item OrderItem */
         $item = $form->getData();
 
         // If our product has no variants, we simply set the master variant of it.
@@ -144,12 +143,18 @@ class ItemResolver implements ItemResolverInterface
             throw new ItemResolvingException('Submitted form is invalid.');
         }
 
-        $item->setUnitPrice(
-            $this->priceCalculator->calculate($variant)
-        );
-
+        $cart = $this->cartProvider->getCart();
         $quantity = $item->getQuantity();
-        foreach ($this->cartProvider->getCart()->getItems() as $cartItem) {
+
+        $context = array('quantity' => $quantity);
+
+        if (null !== $user = $cart->getUser()) {
+            $context['groups'] = $user->getGroups();
+        }
+
+        $item->setUnitPrice($this->priceCalculator->calculate($variant, $context));
+
+        foreach ($cart->getItems() as $cartItem) {
             if ($cartItem->equals($item)) {
                 $quantity += $cartItem->getQuantity();
                 break;

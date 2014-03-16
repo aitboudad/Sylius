@@ -23,7 +23,7 @@ use Sylius\Bundle\VariableProductBundle\Model\VariableProductInterface;
  *
  * @author Paweł Jędrzejewski <pjedrzejewski@diweb.pl>
  */
-interface ProductInterface extends VariableProductInterface, PriceableInterface, TaxableInterface
+interface ProductInterface extends VariableProductInterface, TaxableInterface
 {
     /**
      * Get product SKU.

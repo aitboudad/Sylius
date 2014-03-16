@@ -12,31 +12,22 @@
 namespace Sylius\Bundle\CoreBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Bundle\VariableProductBundle\Model\VariantInterface as BaseVariantInterface;
 use Sylius\Bundle\InventoryBundle\Model\StockableInterface;
+use Sylius\Bundle\PricingBundle\Model\PriceableInterface;
 use Sylius\Bundle\ShippingBundle\Model\ShippableInterface;
+use Sylius\Bundle\VariableProductBundle\Model\VariantInterface as BaseVariantInterface;
 
 /**
  * Sylius core product Variant interface.
  *
  * @author Paweł Jędrzejewski <pjedrzejewski@diweb.pl>
  */
-interface VariantInterface extends BaseVariantInterface, ShippableInterface, StockableInterface
+interface VariantInterface extends
+    BaseVariantInterface,
+    ShippableInterface,
+    StockableInterface,
+    PriceableInterface
 {
-    /**
-     * Get variant price.
-     *
-     * @return integer
-     */
-    public function getPrice();
-
-    /**
-     * Set the price.
-     *
-     * @param integer $price
-     */
-    public function setPrice($price);
-
     /**
      * Get images.
      *

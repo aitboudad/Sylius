@@ -13,6 +13,7 @@ namespace Sylius\Bundle\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Sylius\Bundle\PricingBundle\Calculator\DefaultCalculators;
 use Sylius\Bundle\VariableProductBundle\Model\Variant as BaseVariant;
 use Sylius\Bundle\VariableProductBundle\Model\VariantInterface as BaseVariantInterface;
 
@@ -21,7 +22,7 @@ use Sylius\Bundle\VariableProductBundle\Model\VariantInterface as BaseVariantInt
  *
  * @author Paweł Jędrzejewski <pjedrzejewski@diweb.pl>
  */
-class Variant extends BaseVariant implements VariantInterface, PriceableInterface
+class Variant extends BaseVariant implements VariantInterface
 {
     /**
      * Variant SKU.
@@ -36,6 +37,20 @@ class Variant extends BaseVariant implements VariantInterface, PriceableInterfac
      * @var integer
      */
     protected $price;
+
+    /**
+     * The pricing calculator.
+     *
+     * @var string
+     */
+    protected $pricingCalculator = DefaultCalculators::STANDARD;
+
+    /**
+     * The pricing configuration.
+     *
+     * @var array
+     */
+    protected $pricingConfiguration = array();
 
     /**
      * On hold.
@@ -152,6 +167,42 @@ class Variant extends BaseVariant implements VariantInterface, PriceableInterfac
     public function setPrice($price)
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPricingCalculator()
+    {
+        return $this->pricingCalculator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPricingCalculator($calculator)
+    {
+        $this->pricingCalculator = $calculator;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPricingConfiguration()
+    {
+        return $this->pricingConfiguration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPricingConfiguration(array $configuration)
+    {
+        $this->pricingConfiguration = $configuration;
 
         return $this;
     }

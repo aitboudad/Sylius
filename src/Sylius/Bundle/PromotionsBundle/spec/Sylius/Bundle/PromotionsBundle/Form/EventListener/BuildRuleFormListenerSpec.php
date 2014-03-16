@@ -13,9 +13,9 @@ namespace spec\Sylius\Bundle\PromotionsBundle\Form\EventListener;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Bundle\PromotionsBundle\Checker\Registry\RuleCheckerRegistryInterface;
 use Sylius\Bundle\PromotionsBundle\Checker\RuleCheckerInterface;
 use Sylius\Bundle\PromotionsBundle\Model\RuleInterface;
+use Sylius\Bundle\ResourceBundle\Registry\ServiceRegistryInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -26,13 +26,13 @@ use Symfony\Component\Form\FormFactoryInterface;
 class BuildRuleFormListenerSpec extends ObjectBehavior
 {
     function let(
-        RuleCheckerRegistryInterface $checkerRegistry,
+        ServiceRegistryInterface $checkerRegistry,
         RuleCheckerInterface $checker,
         FormFactoryInterface $factory
     )
     {
         $checker->getConfigurationFormType()->willReturn('sylius_promotion_rule_item_total_configuration');
-        $checkerRegistry->getChecker(Argument::any())->willReturn($checker);
+        $checkerRegistry->get(Argument::any())->willReturn($checker);
 
         $this->beConstructedWith($checkerRegistry, $factory);
     }
