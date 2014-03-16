@@ -11,11 +11,11 @@
 
 namespace Sylius\Bundle\PromotionsBundle\Checker;
 
-use Sylius\Bundle\PromotionsBundle\Checker\Registry\RuleCheckerRegistryInterface;
 use Sylius\Bundle\PromotionsBundle\Model\PromotionInterface;
 use Sylius\Bundle\PromotionsBundle\Model\PromotionSubjectInterface;
 use Sylius\Bundle\PromotionsBundle\Model\RuleInterface;
 use Sylius\Bundle\PromotionsBundle\SyliusPromotionEvents;
+use Sylius\Bundle\ResourceBundle\Registry\ServiceRegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -28,7 +28,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class PromotionEligibilityChecker implements PromotionEligibilityCheckerInterface
 {
     /**
-     * @var RuleCheckerRegistryInterface
+     * @var ServiceRegistryInterface
      */
     protected $registry;
 
@@ -38,10 +38,10 @@ class PromotionEligibilityChecker implements PromotionEligibilityCheckerInterfac
     protected $dispatcher;
 
     /**
-     * @param RuleCheckerRegistryInterface $registry
-     * @param EventDispatcherInterface     $dispatcher
+     * @param ServiceRegistryInterface $registry
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(RuleCheckerRegistryInterface $registry, EventDispatcherInterface $dispatcher)
+    public function __construct(ServiceRegistryInterface $registry, EventDispatcherInterface $dispatcher)
     {
         $this->registry = $registry;
         $this->dispatcher = $dispatcher;
@@ -64,7 +64,7 @@ class PromotionEligibilityChecker implements PromotionEligibilityCheckerInterfac
             return false;
         }
 
-        foreach ($promotion->getRules() as $rule) {
+        foreach ($promotion->all() as $rule) {
             if (false === $this->isEligibleToRule($subject, $promotion, $rule)) {
                 return false;
             }

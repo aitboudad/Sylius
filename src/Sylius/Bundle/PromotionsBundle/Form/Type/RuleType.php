@@ -14,7 +14,7 @@ namespace Sylius\Bundle\PromotionsBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Sylius\Bundle\PromotionsBundle\Checker\Registry\RuleCheckerRegistryInterface;
+use Sylius\Bundle\ResourceBundle\Registry\ServiceRegistryInterface;
 use Sylius\Bundle\PromotionsBundle\Form\EventListener\BuildRuleFormListener;
 
 /**
@@ -28,7 +28,7 @@ class RuleType extends AbstractType
     protected $validationGroups;
     protected $checkerRegistry;
 
-    public function __construct($dataClass, array $validationGroups, RuleCheckerRegistryInterface $checkerRegistry)
+    public function __construct($dataClass, array $validationGroups, ServiceRegistryInterface $checkerRegistry)
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;

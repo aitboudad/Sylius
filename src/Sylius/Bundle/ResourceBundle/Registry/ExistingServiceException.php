@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Sylius\Bundle\PromotionsBundle\Action\Registry;
+namespace Sylius\Bundle\ResourceBundle\Registry;
 
 /**
- * This exception should be thrown by promotion action registry
- * when action of given type already exists.
+ * This exception should be thrown by service registry
+ * when given type already exists.
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
  */
-class ExistingPromotionActionException extends \InvalidArgumentException
+class ExistingServiceException extends \InvalidArgumentException
 {
     public function __construct($type)
     {
-        parent::__construct(sprintf('Promotion action of type "%s" already exist.', $type));
+        parent::__construct(sprintf('Service of type "%s" already exist.', $type));
     }
 }

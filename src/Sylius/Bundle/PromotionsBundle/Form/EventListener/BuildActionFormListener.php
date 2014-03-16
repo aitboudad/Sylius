@@ -11,7 +11,7 @@
 
 namespace Sylius\Bundle\PromotionsBundle\Form\EventListener;
 
-use Sylius\Bundle\PromotionsBundle\Action\Registry\PromotionActionRegistryInterface;
+use Sylius\Bundle\ResourceBundle\Registry\ServiceRegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormInterface;
 class BuildActionFormListener implements EventSubscriberInterface
 {
     /**
-     * @var PromotionActionRegistryInterface
+     * @var ServiceRegistryInterface
      */
     private $actionRegistry;
 
@@ -36,7 +36,7 @@ class BuildActionFormListener implements EventSubscriberInterface
      */
     private $factory;
 
-    public function __construct(PromotionActionRegistryInterface $actionRegistry, FormFactoryInterface $factory)
+    public function __construct(ServiceRegistryInterface $actionRegistry, FormFactoryInterface $factory)
     {
         $this->actionRegistry = $actionRegistry;
         $this->factory = $factory;
@@ -74,7 +74,7 @@ class BuildActionFormListener implements EventSubscriberInterface
 
     protected function addConfigurationFields(FormInterface $form, $actionType, array $data = array())
     {
-        $action = $this->actionRegistry->getAction($actionType);
+        $action = $this->actionRegistry->get($actionType);
         $configurationField = $this->factory->createNamed('configuration', $action->getConfigurationFormType(), $data, array('auto_initialize' => false));
 
         $form->add($configurationField);
