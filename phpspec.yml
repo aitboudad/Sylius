@@ -21,6 +21,7 @@ suites:
     Settings         : { namespace: Sylius, spec_path: src/Sylius/Component/Settings }
     Shipping         : { namespace: Sylius, spec_path: src/Sylius/Component/Shipping }
     Storage          : { namespace: Sylius, spec_path: src/Sylius/Component/Storage }
+    Subscription     : { namespace: Sylius, spec_path: src/Sylius/Component/Subscription }
     Taxation         : { namespace: Sylius, spec_path: src/Sylius/Component/Taxation }
     Taxonomy         : { namespace: Sylius, spec_path: src/Sylius/Component/Taxonomy }
     Variation        : { namespace: Sylius, spec_path: src/Sylius/Component/Variation }
@@ -50,3 +51,4 @@ suites:
     TaxationBundle   : { namespace: Sylius, spec_path: src/Sylius/Bundle/TaxationBundle }
     TaxonomyBundle   : { namespace: Sylius, spec_path: src/Sylius/Bundle/TaxonomyBundle }
     VariationBundle  : { namespace: Sylius, spec_path: src/Sylius/Bundle/VariationBundle }
+    SubscriptionBundle : { namespace: Sylius, spec_path: src/Sylius/Bundle/SubscriptionBundle }

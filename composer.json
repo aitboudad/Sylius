@@ -120,6 +120,8 @@
         "sylius/shipping": "self.version",
         "sylius/shipping-bundle": "self.version",
         "sylius/storage": "self.version",
+        "sylius/subscription": "self.version",
+        "sylius/subscription-bundle": "self.version",
         "sylius/taxation": "self.version",
         "sylius/taxation-bundle": "self.version",
         "sylius/taxonomy": "self.version",

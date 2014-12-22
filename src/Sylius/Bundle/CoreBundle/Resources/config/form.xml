@@ -42,6 +42,8 @@
         <parameter key="sylius.form.type.promotion_rule.contains_product_configuration.class">Sylius\Bundle\CoreBundle\Form\Type\Rule\ContainsProductConfigurationType</parameter>
         <parameter key="sylius.form.type.promotion_action.shipping_discount_configuration.class">Sylius\Bundle\CoreBundle\Form\Type\Action\ShippingDiscountConfigurationType</parameter>
         <parameter key="sylius.form.type.promotion_action.add_product_configuration.class">Sylius\Bundle\CoreBundle\Form\Type\Action\AddProductConfigurationType</parameter>
+
+        <parameter key="sylius.form.type.date_interval.class">Sylius\Bundle\CoreBundle\Form\Type\DateIntervalType</parameter>
     </parameters>
 
     <services>
@@ -158,6 +160,10 @@
         <service id="sylius.form.type.price_calculator.zone_based" class="%sylius.form.type.price_calculator.zone_based.class%">
             <argument type="service" id="sylius.repository.zone" />
             <tag name="form.type" alias="sylius_price_calculator_zone_based" />
+        </service>
+
+        <service id="sylius.form.type.date_interval" class="%sylius.form.type.date_interval.class%">
+            <tag name="form.type" alias="sylius_date_interval" />
         </service>
     </services>
 
