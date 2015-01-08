@@ -28,7 +28,7 @@
 {% for taxon in taxons %}
 <tr>
     <td>
-        {% for i in 1..taxon.level %}<i class="icon-caret-right"></i>{% if not loop.last %}&nbsp;{% endif %}{% endfor %}
+        {% for i in 1..taxon.level %}<i class="fa fa-caret-right"></i>{% if not loop.last %}&nbsp;{% endif %}{% endfor %}
         {{ taxon.name }}
     </td>
     <td>

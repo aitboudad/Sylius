@@ -14,11 +14,11 @@
             {{ form_widget(form.items[loop.index0].subscription.interval, {'label': false}) }}
         </td>
         <td class="col-md-1">
-            <a href="{{ path('sylius_cart_item_remove', {'id': item.id}) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+            <a href="{{ path('sylius_cart_item_remove', {'id': item.id}) }}" class="btn btn-danger"><i class="fa fa-trash icon-white"></i></a>
         </td>
     {% else %}
         <td class="col-md-1" colspan="2">
-            <a href="{{ path('sylius_cart_item_remove', {'id': item.id}) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+            <a href="{{ path('sylius_cart_item_remove', {'id': item.id}) }}" class="btn btn-danger"><i class="fa fa-trash icon-white"></i></a>
         </td>
     {% endif %}
 

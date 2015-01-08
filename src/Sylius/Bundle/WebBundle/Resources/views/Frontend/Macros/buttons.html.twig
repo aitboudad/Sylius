@@ -3,7 +3,7 @@
     {% if id is not empty %} id="{{ id }}"{% endif %}
     href="{{ url }}">
     {% if icon is not empty %}
-        <i class="icon-{{ icon }}"></i>
+        <i class="fa fa-{{ icon }}"></i>
     {% endif %}
     {{ message|trans }}
 </a>
@@ -42,13 +42,13 @@
 {% macro delete(url, message, disabled) %}
 {% if disabled %}
 <span class="btn btn-danger disabled">
-    <i class="icon-trash"></i><span>{{ message is empty ? 'sylius.delete'|trans : message }}</span>
+    <i class="fa fa-trash"></i><span>{{ message is empty ? 'sylius.delete'|trans : message }}</span>
 </span>
 {% else %}
 <form action="{{ url }}" method="post" style="display: inline;">
     <input type="hidden" name="_method" value="DELETE">
     <button class="btn btn-danger btn-confirm" type="submit">
-        <i class="icon-trash"></i> <span>{{ message is empty ? 'sylius.delete'|trans : message }}</span>
+        <i class="fa fa-trash"></i> <span>{{ message is empty ? 'sylius.delete'|trans : message }}</span>
     </button>
 </form>
 {% endif %}
