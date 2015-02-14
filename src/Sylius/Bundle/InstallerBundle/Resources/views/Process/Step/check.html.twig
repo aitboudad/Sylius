@@ -49,14 +49,14 @@
                 <td>{{ requirement.expected }}</td>
                 <td>
                     {% if requirement.fulfilled %}
-                        <span class="label label-success"><i class="icon-ok"></i></span>
+                        <span class="label label-success"><i class="fa fa-ok"></i></span>
                     {% else %}
                         <a href="#" title="{{ requirement.label }}" data-placement="top" data-trigger="click" data-content="{{ requirement.help }}"
                             {% if requirement.required %}
                                 {% set fulfilled = false %}
-                                class="label label-important"><i class="icon-remove"
+                                class="label label-important"><i class="fa fa-remove"
                             {% else %}
-                                class="label label-warning"><i class="icon-warning-sign"
+                                class="label label-warning"><i class="fa fa-warning-sign"
                             {% endif %}
                         ></i></a>
                     {% endif %}
@@ -68,9 +68,9 @@
 {% endfor %}
 
 <div class="form-actions">
-    <a href="{{ path('sylius_flow_display', {'scenarioAlias': 'sylius_installer', 'stepName': 'welcome'}) }}" class="btn btn-lg btn-default"><i class="icon-chevron-left"></i> {{ 'sylius.process.step.check.button.back'|trans }}</a> &nbsp;
+    <a href="{{ path('sylius_flow_display', {'scenarioAlias': 'sylius_installer', 'stepName': 'welcome'}) }}" class="btn btn-lg btn-default"><i class="fa fa-chevron-left"></i> {{ 'sylius.process.step.check.button.back'|trans }}</a> &nbsp;
     <a href="{{ fulfilled ? path('sylius_flow_forward', {'scenarioAlias': 'sylius_installer', 'stepName': 'check'}) : '#' }}" class="btn btn-lg btn-primary{% if not fulfilled %} disabled{% endif %}">
-        {{ 'sylius.process.step.check.button.next'|trans }} <i class="icon-chevron-right"></i>
+        {{ 'sylius.process.step.check.button.next'|trans }} <i class="fa fa-chevron-right"></i>
     </a>
 </div>
 {% endblock %}

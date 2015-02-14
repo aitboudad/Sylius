@@ -48,6 +48,7 @@ class SyliusCoreExtension extends AbstractResourceExtension implements PrependEx
         'sylius_taxation',
         'sylius_taxonomy',
         'sylius_variation',
+        'sylius_subscription',
     );
 
     protected $configFiles = array(
@@ -112,7 +113,7 @@ class SyliusCoreExtension extends AbstractResourceExtension implements PrependEx
         }
 
         $routeClasses = $controllerByClasses = $repositoryByClasses = $syliusByClasses = array();
-        foreach ($config['routing'] as $className => $routeConfig) {
+        foreach (array_reverse($config['routing']) as $className => $routeConfig) {
             $routeClasses[$className] = array(
                 'field'  => $routeConfig['field'],
                 'prefix' => $routeConfig['prefix'],

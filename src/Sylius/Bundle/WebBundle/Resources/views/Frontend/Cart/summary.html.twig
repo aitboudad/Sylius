@@ -32,7 +32,12 @@
             <th>#</th>
             <th>{{ 'sylius.cart.summary.product'|trans }}</th>
             <th>{{ 'sylius.cart.summary.quantity'|trans }}</th>
-            <th></th>
+            {% if form.items[0].subscription is defined %}
+                <th>{{ 'sylius.cart.summary.subscription'|trans }}</th>
+                <th></th>
+            {% else %}
+                <th colspan="2"></th>
+            {% endif %}
             <th>{{ 'sylius.cart.summary.unit_price'|trans }}</th>
             <th style="text-align: right;">{{ 'sylius.cart.summary.total'|trans }}</th>
         </tr>
@@ -45,18 +50,18 @@
     <tfoot>
         {% if cart.adjustmentsTotal(promotionAdjustment) %}
         <tr>
-            <td colspan="6" style="text-align: right;">
+            <td colspan="7" style="text-align: right;">
                 <strong>{{ 'sylius.order.promotion_total'|trans }}</strong>: -{{ (-1 * cart.adjustmentsTotal(promotionAdjustment))|sylius_price }}
             </td>
         </tr>
         {% endif %}
         <tr>
-            <td colspan="6" style="text-align: right;">
+            <td colspan="7" style="text-align: right;">
                 <strong>{{ 'sylius.order.shipping_total'|trans }}</strong>: {{ cart.adjustmentsTotal(shippingAdjustment)|sylius_price }}
             </td>
         </tr>
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 <p><strong>{{ 'sylius.order.taxes'|trans }}</strong></p>
                 <ul>
                 {% for taxAdjustment in cart.adjustments(taxAdjustment) %}
@@ -71,7 +76,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="6" style="text-align: right;">
+            <td colspan="7" style="text-align: right;">
                 <strong>{{ 'sylius.cart.summary.grand_total'|trans }}</strong>: {{ cart.total|sylius_price }}
             </td>
         </tr>
@@ -88,10 +93,10 @@
 
 {{ form_rest(form) }}
 <div class="well">
-    <button type="submit" class="btn btn-primary btn-lg"><i class="icon-save"></i> {{ 'sylius.cart.summary.save'|trans }}</button>
+    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-save"></i> {{ 'sylius.cart.summary.save'|trans }}</button>
     <div class="pull-right">
-    <a href="{{ path('sylius_checkout_start') }}" class="btn btn-success btn-lg"><i class="icon-shopping-cart"></i> {{ 'sylius.cart.summary.checkout'|trans }}</a>
-    <a href="{{ path('sylius_cart_clear') }}" class="btn btn-danger btn-lg"><i class="icon-remove"></i> {{ 'sylius.cart.summary.clear'|trans }}</a>
+    <a href="{{ path('sylius_checkout_start') }}" class="btn btn-success btn-lg"><i class="fa fa-shopping-cart"></i> {{ 'sylius.cart.summary.checkout'|trans }}</a>
+    <a href="{{ path('sylius_cart_clear') }}" class="btn btn-danger btn-lg"><i class="fa fa-remove"></i> {{ 'sylius.cart.summary.clear'|trans }}</a>
     </div>
 </div>
 </form>

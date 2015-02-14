@@ -28,7 +28,7 @@
 
             var collectionContainer = $('#' + $(this).data('collection'));
             var item = $('#' + $(this).data('collection') + ' .control-group:last-child');
-            var removeLink = $('<a class="btn btn-danger sylius_product_attribute_choices_' + (collectionContainer.children().length - 1) + '_delete" href="#"><i class="icon-trash"></i></a>');
+            var removeLink = $('<a class="btn btn-danger sylius_product_attribute_choices_' + (collectionContainer.children().length - 1) + '_delete" href="#"><i class="fa fa-trash"></i></a>');
             removeLink.on('click', function(e) {
                 e.preventDefault();
 
