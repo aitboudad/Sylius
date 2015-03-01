@@ -61,7 +61,7 @@
         </property>
     </class>
 
-    <class name="Sylius\Component\Contact\Model\Topic">
+    <class name="Sylius\Component\Contact\Model\TopicTranslation">
         <property name="title">
             <constraint name="NotBlank">
                 <option name="message">sylius.contact_topic.title.not_blank</option>
