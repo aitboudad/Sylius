@@ -101,7 +101,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('model')->defaultValue('Sylius\Component\Contact\Model\Topic')->end()
                                 ->scalarNode('controller')->defaultValue('Sylius\Bundle\ResourceBundle\Controller\ResourceController')->end()
-                                ->scalarNode('repository')->end()
+                                ->scalarNode('repository')->defaultValue('Sylius\Bundle\ResourceBundle\Doctrine\ORM\TranslatableEntityRepository')->end()
                                 ->scalarNode('form')->defaultValue('Sylius\Bundle\ContactBundle\Form\Type\TopicType')->end()
                                 ->arrayNode('translatable')
                                     ->addDefaultsIfNotSet()
